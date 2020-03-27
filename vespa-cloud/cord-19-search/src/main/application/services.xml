@@ -5,6 +5,7 @@
     <search></search>
     <document-processing></document-processing>
     <document-api></document-api>
+    <component id="com.yahoo.language.simple.SimpleLinguistics"/>
   </container>
 
   <content id="doc" version="1.0">
