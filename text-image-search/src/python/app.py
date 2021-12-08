@@ -2,8 +2,10 @@ import os
 import clip
 import time
 import streamlit as st
+import shutil
 from math import floor
 from PIL import Image
+from urllib.request import urlretrieve
 
 from vespa.application import Vespa
 from vespa.query import QueryModel, ANN, QueryRankingFeature, RankProfile as Ranking
@@ -38,6 +40,16 @@ def get_text_processor(clip_model_name):
     return text_processor
 
 
+@st.cache
+def download_photos():
+    urlretrieve(
+        "https://github.com/jbrownlee/Datasets/releases/download/Flickr8k/Flickr8k_Dataset.zip",
+        "data.zip",
+    )
+    shutil.unpack_archive("data.zip", "photos", "zip")
+    return "photos"
+
+
 def get_image(image_file_name, image_dir):
     return Image.open(os.path.join(image_dir, image_file_name))
 
@@ -69,6 +81,8 @@ def vespa_query(query, clip_model_name):
         "timing"
     ]
 
+
+photos_dir = download_photos()
 
 clip_model_name = st.sidebar.selectbox(
     "Select CLIP model", get_available_clip_model_names()
@@ -102,4 +116,3 @@ placeholder.write(
         vespa_search_time, other_time, total_time
     )
 )
-
