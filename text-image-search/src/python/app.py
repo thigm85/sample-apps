@@ -17,10 +17,13 @@ st.set_page_config(layout="wide")
 
 VESPA_URL = os.environ.get("VESPA_ENDPOINT", "http://localhost:8080")
 VESPA_CERT_PATH = os.environ.get("VESPA_CERT_PATH", None)
+with open("certificate.txt", "w") as f:
+    f.write(VESPA_CERT_PATH)
+
 
 app = Vespa(
     url=VESPA_URL,
-    cert=VESPA_CERT_PATH,
+    cert="certificate.txt",
 )
 
 
