@@ -77,36 +77,37 @@ def vespa_query(query, clip_model_name):
         ),
         **{"presentation.timing": "true"}
     )
-    return [hit["fields"]["encoded_image"] for hit in result.hits], result.json[
+    return [hit["fields"]["image_file_name"] for hit in result.hits], result.json[
         "timing"
     ]
 
 
 photos_dir = download_photos()
+IMG_FOLDER = photos_dir
 
 clip_model_name = st.sidebar.selectbox(
     "Select CLIP model", get_available_clip_model_names()
 )
 
 out1, col1, out2 = st.columns([3, 1, 3])
-col1.image("https://docs.vespa.ai/assets/vespa-logo-color.png", width=100)
+col1.image("https://docs.vespa.ai/assets/logos/vespa-logo-full-black.svg", width=100)
 query_input = st.text_input(label="", value="a man surfing", key="query_input")
 
 start = time.time()
-images, timing = vespa_query(query=query_input, clip_model_name=clip_model_name)
+image_file_names, timing = vespa_query(query=query_input, clip_model_name=clip_model_name)
 placeholder = st.empty()
 number_rows = floor(len(images) / 3)
 remainder = len(images) % 3
 if number_rows > 0:
     for i in range(number_rows):
         col1, col2, col3 = st.columns(3)
-        col1.image(decode_string_to_media(images[3 * i]))
-        col2.image(decode_string_to_media(images[3 * i + 1]))
-        col3.image(decode_string_to_media(images[3 * i + 2]))
+        col1.image(get_image(image_file_names[3*i], image_dir=IMG_FOLDER))
+        col2.image(get_image(image_file_names[3*i + 1], image_dir=IMG_FOLDER))
+        col3.image(get_image(image_file_names[3*i + 2], image_dir=IMG_FOLDER))
 if remainder > 0:
     cols = st.columns(3)
     for i in range(remainder):
-        cols[i].image(decode_string_to_media(images[3 * number_rows + i]))
+        cols[i].image(get_image(image_file_names[3*number_rows+i], image_dir=IMG_FOLDER))
 total_timing = time.time() - start
 vespa_search_time = round(timing["searchtime"], 2)
 total_time = round(total_timing, 2)
