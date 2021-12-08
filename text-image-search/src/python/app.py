@@ -96,8 +96,8 @@ query_input = st.text_input(label="", value="a man surfing", key="query_input")
 start = time.time()
 image_file_names, timing = vespa_query(query=query_input, clip_model_name=clip_model_name)
 placeholder = st.empty()
-number_rows = floor(len(images) / 3)
-remainder = len(images) % 3
+number_rows = floor(len(image_file_names) / 3)
+remainder = len(image_file_names) % 3
 if number_rows > 0:
     for i in range(number_rows):
         col1, col2, col3 = st.columns(3)
