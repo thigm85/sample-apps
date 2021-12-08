@@ -83,7 +83,7 @@ def vespa_query(query, clip_model_name):
 
 
 photos_dir = download_photos()
-IMG_FOLDER = photos_dir
+IMG_FOLDER = os.path.join(os.getcwd(), photos_dir)
 
 clip_model_name = st.sidebar.selectbox(
     "Select CLIP model", get_available_clip_model_names()
