@@ -70,12 +70,10 @@ def vespa_query(query, clip_model_name):
     ]
 
 
-clip_model_name = st.sidebar.selectbox(
-    "Select CLIP model", get_available_clip_model_names()
-)
+clip_model_name = "ViT-B/32"
 
 out1, col1, out2 = st.columns([3, 1, 3])
-col1.image("https://docs.vespa.ai/assets/vespa-logo-color.png", width=100)
+col1.image("https://docs.vespa.ai/assets/logos/vespa-logo-full-black.svg", width=100)
 query_input = st.text_input(label="", value="a man surfing", key="query_input")
 
 start = time.time()
